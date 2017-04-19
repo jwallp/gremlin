@@ -3,9 +3,10 @@ package gremlin
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gorilla/websocket"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 type Response struct {
@@ -42,6 +43,8 @@ func ReadResponse(ws *websocket.Conn) (data []byte, err error) {
 		var items []json.RawMessage
 		switch res.Status.Code {
 		case StatusNoContent:
+			dataItems = make([]json.RawMessage, 0)
+			data, err = json.Marshal(dataItems)
 			return
 
 		case StatusPartialContent:
